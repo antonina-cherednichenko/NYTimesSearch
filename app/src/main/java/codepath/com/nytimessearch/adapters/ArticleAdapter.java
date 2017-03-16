@@ -69,11 +69,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             ArticleViewNoImageHolder viewHolder = (ArticleViewNoImageHolder) holder;
 
             viewHolder.tvTitle.setText(article.getHeadline());
+            viewHolder.tvSnippet.setText(article.getSnippet());
 
-            String thumbnail = article.getThumbNail();
-            if (!TextUtils.isEmpty(thumbnail)) {
-                Picasso.with(context).load(thumbnail).into(viewHolder.ivImage);
-            }
         }
     }
 
@@ -114,13 +111,13 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
     public class ArticleViewNoImageHolder extends ArticleViewHolder {
-        ImageView ivImage;
+        TextView tvSnippet;
         TextView tvTitle;
 
         public ArticleViewNoImageHolder(View itemView) {
             super(itemView);
 
-            ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
+            tvSnippet = (TextView) itemView.findViewById(R.id.tvSnippet);
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
 
             itemView.setOnClickListener(new View.OnClickListener() {

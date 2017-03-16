@@ -10,19 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/ivImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            tools:src="@mipmap/ic_launcher" />
-
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ivImage"
+            android:ellipsize="end"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textStyle="bold"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/tvSnippet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
             android:ellipsize="end"
             tools:text="TextView" />
 
