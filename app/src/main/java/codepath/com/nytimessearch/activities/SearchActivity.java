@@ -1,15 +1,14 @@
 package codepath.com.nytimessearch.activities;
 
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -26,11 +25,10 @@ import codepath.com.nytimessearch.adapters.ArticleAdapter;
 import codepath.com.nytimessearch.models.Article;
 import cz.msebera.android.httpclient.Header;
 
-public class SearchActivity extends AppCompatActivity {
 
-    EditText etQuery;
+public class SearchActivity extends AppCompatActivity {
     RecyclerView gvResults;
-    Button btnSearch;
+
 
     ArrayList<Article> articles;
     ArticleAdapter adapter;
@@ -39,16 +37,13 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         setupViews();
 
     }
 
     private void setupViews() {
-        etQuery = (EditText) findViewById(R.id.etQuery);
         gvResults = (RecyclerView) findViewById(R.id.gvResults);
-        btnSearch = (Button) findViewById(R.id.btnSearch);
+
         articles = new ArrayList<>();
         adapter = new ArticleAdapter(this, articles);
 
@@ -57,33 +52,53 @@ public class SearchActivity extends AppCompatActivity {
         gvResults.setLayoutManager(gridLayoutManager);
         gvResults.setAdapter(adapter);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_search, menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // perform query here
+                onArticleSearch(query);
+                searchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Write your code here
+                articles.clear();
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+
+
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void onArticleSearch(View view) {
-        String query = etQuery.getText().toString();
-
+    public void onArticleSearch(String query) {
         AsyncHttpClient client = new AsyncHttpClient();
         String url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 
@@ -105,6 +120,11 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
 }
