@@ -4,4 +4,6 @@
     <string name="hint">Enter search query</string>
     <string name="search">Search</string>
     <string name="title_activity_article">ArticleActivity</string>
+
+    <string name="search_activity_title">The New York Times</string>
 </resources>
