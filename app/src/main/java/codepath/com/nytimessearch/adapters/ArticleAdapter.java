@@ -18,9 +18,6 @@ import codepath.com.nytimessearch.R;
 import codepath.com.nytimessearch.activities.ArticleActivity;
 import codepath.com.nytimessearch.models.Article;
 
-/**
- * Created by tonya on 3/14/17.
- */
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder> {
 
@@ -33,24 +30,50 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
     @Override
+    public int getItemViewType(int position) {
+        Article article = articles.get(position);
+        return TextUtils.isEmpty(article.getThumbNail()) ? Article.Type.NO_IMAGE.value : Article.Type.WITH_IMAGE.value;
+    }
+
+
+    @Override
     public ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.
-                from(parent.getContext()).
-                inflate(R.layout.item_article_result, parent, false);
+        if (viewType == Article.Type.WITH_IMAGE.value) {
+            View view = LayoutInflater.
+                    from(parent.getContext()).
+                    inflate(R.layout.item_article_with_image, parent, false);
+            return new ArticleViewWithImageHolder(view);
+        } else {
+            View view = LayoutInflater.
+                    from(parent.getContext()).
+                    inflate(R.layout.item_article_no_image, parent, false);
+            return new ArticleViewNoImageHolder(view);
 
-
-        return new ArticleViewHolder(view);
+        }
     }
 
     @Override
     public void onBindViewHolder(ArticleViewHolder holder, int position) {
         Article article = articles.get(position);
 
-        holder.tvTitle.setText(article.getHeadline());
+        if (holder.getItemViewType() == Article.Type.WITH_IMAGE.value) {
+            ArticleViewWithImageHolder viewHolder = (ArticleViewWithImageHolder) holder;
+            viewHolder.tvTitle.setText(article.getHeadline());
 
-        String thumbnail = article.getThumbNail();
-        if (!TextUtils.isEmpty(thumbnail)) {
-            Picasso.with(context).load(thumbnail).into(holder.ivImage);
+            String thumbnail = article.getThumbNail();
+            if (!TextUtils.isEmpty(thumbnail)) {
+                Picasso.with(context).load(thumbnail).into(viewHolder.ivImage);
+            }
+
+        } else {
+            ArticleViewNoImageHolder viewHolder = (ArticleViewNoImageHolder) holder;
+
+            viewHolder.tvTitle.setText(article.getHeadline());
+
+            String thumbnail = article.getThumbNail();
+            if (!TextUtils.isEmpty(thumbnail)) {
+                Picasso.with(context).load(thumbnail).into(viewHolder.ivImage);
+            }
         }
     }
 
@@ -60,10 +83,41 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
+
+        public ArticleViewHolder(View itemView) {
+            super(itemView);
+        }
+
+    }
+
+    public class ArticleViewWithImageHolder extends ArticleViewHolder {
         ImageView ivImage;
         TextView tvTitle;
 
-        public ArticleViewHolder(View itemView) {
+        public ArticleViewWithImageHolder(View itemView) {
+            super(itemView);
+
+            ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
+            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Intent i = new Intent(context, ArticleActivity.class);
+                    Article article = articles.get(position);
+                    i.putExtra(ArticleActivity.ARTICLE_EXTRA, article);
+                    context.startActivity(i);
+                }
+            });
+        }
+    }
+
+    public class ArticleViewNoImageHolder extends ArticleViewHolder {
+        ImageView ivImage;
+        TextView tvTitle;
+
+        public ArticleViewNoImageHolder(View itemView) {
             super(itemView);
 
             ivImage = (ImageView) itemView.findViewById(R.id.ivImage);

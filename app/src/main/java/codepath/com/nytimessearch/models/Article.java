@@ -13,9 +13,10 @@ import java.util.ArrayList;
 
 public class Article implements Serializable {
 
-    String webUrl;
-    String headline;
-    String thumbNail;
+    private String webUrl;
+    private String headline;
+    private String thumbNail;
+    private String snippet;
 
     public String getHeadline() {
         return headline;
@@ -29,10 +30,15 @@ public class Article implements Serializable {
         return webUrl;
     }
 
+    public String getSnippet() {
+        return snippet;
+    }
+
     public Article(JSONObject jsonObject) {
         try {
             this.webUrl = jsonObject.getString("web_url");
             this.headline = jsonObject.getJSONObject("headline").getString("main");
+            this.snippet = jsonObject.getString("snippet");
 
             JSONArray multimedia = jsonObject.getJSONArray("multimedia");
 
@@ -47,6 +53,18 @@ public class Article implements Serializable {
             e.printStackTrace();
         }
     }
+
+    public enum Type {
+        WITH_IMAGE(0),
+        NO_IMAGE(1);
+
+        public final int value;
+
+        Type(int value) {
+            this.value = value;
+        }
+    }
+
 
     public static ArrayList<Article> fromJsonArray(JSONArray array) {
         ArrayList<Article> results = new ArrayList<>();
