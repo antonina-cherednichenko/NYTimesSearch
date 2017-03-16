@@ -59,6 +59,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         if (holder.getItemViewType() == Article.Type.WITH_IMAGE.value) {
             ArticleViewWithImageHolder viewHolder = (ArticleViewWithImageHolder) holder;
             viewHolder.tvTitle.setText(article.getHeadline());
+            viewHolder.tvSnippet.setText(article.getSnippet());
 
             String thumbnail = article.getThumbNail();
             if (!TextUtils.isEmpty(thumbnail)) {
@@ -90,12 +91,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public class ArticleViewWithImageHolder extends ArticleViewHolder {
         ImageView ivImage;
         TextView tvTitle;
+        TextView tvSnippet;
 
         public ArticleViewWithImageHolder(View itemView) {
             super(itemView);
 
             ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+            tvSnippet = (TextView) itemView.findViewById(R.id.tvSnippet);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

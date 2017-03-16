@@ -14,6 +14,7 @@
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/simple_margin"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             tools:src="@mipmap/ic_launcher" />
@@ -23,7 +24,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivImage"
-            android:ellipsize="end"
+            android:layout_margin="@dimen/simple_margin"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textStyle="bold"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/tvSnippet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
+            android:layout_margin="@dimen/simple_margin"
             tools:text="TextView" />
 
     </RelativeLayout>
