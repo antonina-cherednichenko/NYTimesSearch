@@ -7,12 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,21 +22,34 @@ import java.util.ArrayList;
 import codepath.com.nytimessearch.R;
 import codepath.com.nytimessearch.adapters.ArticleAdapter;
 import codepath.com.nytimessearch.models.Article;
+import codepath.com.nytimessearch.network.NYTHttpClient;
+import codepath.com.nytimessearch.utils.EndlessRecyclerViewScrollListener;
 import cz.msebera.android.httpclient.Header;
 
 
 public class SearchActivity extends AppCompatActivity {
     RecyclerView gvResults;
 
+    private ArrayList<Article> articles;
+    private ArticleAdapter adapter;
 
-    ArrayList<Article> articles;
-    ArticleAdapter adapter;
+    // Store a member variable for the listener
+    private EndlessRecyclerViewScrollListener scrollListener;
+
+    private static final String QUERY_VALUE = "query";
+
+
+    private static String query = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         setupViews();
+
+        if (savedInstanceState != null) {
+            query = savedInstanceState.getString(QUERY_VALUE);
+        }
 
     }
 
@@ -51,10 +63,20 @@ public class SearchActivity extends AppCompatActivity {
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         gvResults.setLayoutManager(gridLayoutManager);
         gvResults.setAdapter(adapter);
+        newSearch(query);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                loadNextDataFromApi(page);
+            }
+        };
+        gvResults.addOnScrollListener(scrollListener);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
     }
 
     @Override
@@ -67,8 +89,9 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // perform query here
-                onArticleSearch(query);
+                newSearch(query);
                 searchView.clearFocus();
+
                 return true;
             }
 
@@ -87,8 +110,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 // Write your code here
-                articles.clear();
-                adapter.notifyDataSetChanged();
+                showAllArticles();
                 return true;
             }
         });
@@ -97,17 +119,39 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 
-    public void onArticleSearch(String query) {
-        AsyncHttpClient client = new AsyncHttpClient();
-        String url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(QUERY_VALUE, query);
+        super.onSaveInstanceState(outState);
+    }
 
-        RequestParams params = new RequestParams();
-        params.put("api-key", "b5c30576eb72418db66bab0c6714a2f9");
-        params.put("page", 0);
-        params.put("q", query);
+    private void loadNextDataFromApi(int offset) {
+        searchArticles(query, offset);
+    }
 
-        client.get(url, params, new JsonHttpResponseHandler() {
+    private void showAllArticles() {
+        newSearch("");
+    }
+
+    private void newSearch(String sq) {
+        articles.clear();
+        query = sq;
+        searchArticles(sq, 0);
+    }
+
+    private void searchArticles(String query, int page) {
+        JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                Log.d("DEBUG", errorResponse.toString());
+            }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -119,12 +163,9 @@ public class SearchActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        });
-    }
+        };
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        NYTHttpClient.searchArticles(query, page, handler);
     }
 
 }
