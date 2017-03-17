@@ -6,4 +6,24 @@
     <string name="title_activity_article">ArticleActivity</string>
 
     <string name="search_activity_title">The New York Times</string>
+
+    <string-array name="search_order">
+        <item>Oldest</item>
+        <item>Newest</item>
+    </string-array>
+
+
+    <string name="order_prompt">Select order of publication</string>
+
+    <string name="check_box_arts">Arts</string>
+    <string name="check_box_fashion">Fashion &amp; Style</string>
+    <string name="check_box_sports">Sports</string>
+
+    <string name="save_button">Save</string>
+    <string name="filter_dialog_name">Filter Articles</string>
+
+    <string name="begin_date_text">Begin Date</string>
+    <string name="sort_order_text">Sort Order</string>
+    <string name="desk_values_text">New Desk Values</string>
+
 </resources>

@@ -16,4 +16,12 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
 
+    <item
+        android:id="@+id/action_filter"
+        android:icon="@drawable/ic_filter_list"
+        android:orderInCategory="10"
+        android:title="Filter"
+        app:showAsAction="always|collapseActionView" />
+
+
 </menu>

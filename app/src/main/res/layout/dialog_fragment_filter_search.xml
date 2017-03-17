@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/start_date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/begin_date_text"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/start_date_text"
+        android:layout_centerHorizontal="true"
+        android:focusable="false"
+        android:focusableInTouchMode="true"
+        android:inputType="date" />
+
+    <TextView
+        android:id="@+id/sort_order_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etDate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_filter_dialog"
+        android:text="@string/sort_order_text"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sort_order_text"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/search_order"
+        android:prompt="@string/order_prompt" />
+
+    <TextView
+        android:id="@+id/new_desks_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spOrder"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_filter_dialog"
+        android:text="@string/desk_values_text"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:id="@+id/cbArts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/new_desks_text"
+        android:layout_below="@id/new_desks_text"
+        android:text="@string/check_box_arts" />
+
+    <CheckBox
+        android:id="@+id/cbFashion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/cbArts"
+        android:layout_below="@id/cbArts"
+        android:text="@string/check_box_fashion" />
+
+    <CheckBox
+        android:id="@+id/cbSports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/cbFashion"
+        android:layout_below="@id/cbFashion"
+        android:text="@string/check_box_sports" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cbSports"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@color/colorPrimary"
+        android:text="@string/save_button" />
+
+
+</RelativeLayout>

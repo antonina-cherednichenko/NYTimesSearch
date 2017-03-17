@@ -63,7 +63,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
             String thumbnail = article.getThumbNail();
             if (!TextUtils.isEmpty(thumbnail)) {
-                Picasso.with(context).load(thumbnail).into(viewHolder.ivImage);
+                //Measure parent width
+                int displayWidth = context.getResources().getDisplayMetrics().widthPixels;
+
+                Picasso.with(context).load(thumbnail).resize(displayWidth / 2, 0).into(viewHolder.ivImage);
             }
 
         } else {

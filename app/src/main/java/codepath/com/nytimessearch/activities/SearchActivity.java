@@ -1,6 +1,7 @@
 package codepath.com.nytimessearch.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -21,13 +22,15 @@ import java.util.ArrayList;
 
 import codepath.com.nytimessearch.R;
 import codepath.com.nytimessearch.adapters.ArticleAdapter;
+import codepath.com.nytimessearch.fragments.FilterSearchDialog;
 import codepath.com.nytimessearch.models.Article;
+import codepath.com.nytimessearch.models.FilterData;
 import codepath.com.nytimessearch.network.NYTHttpClient;
 import codepath.com.nytimessearch.utils.EndlessRecyclerViewScrollListener;
 import cz.msebera.android.httpclient.Header;
 
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements FilterSearchDialog.FilteredSearchListener {
     RecyclerView gvResults;
 
     private ArrayList<Article> articles;
@@ -70,7 +73,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
-                loadNextDataFromApi(page);
+                searchArticles(query, page);
             }
         };
         gvResults.addOnScrollListener(scrollListener);
@@ -121,7 +124,15 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                FragmentManager fm = getSupportFragmentManager();
+                FilterSearchDialog filterDialog = FilterSearchDialog.newInstance();
+                filterDialog.show(fm, "fragment_filter_dialog");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -130,9 +141,6 @@ public class SearchActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    private void loadNextDataFromApi(int offset) {
-        searchArticles(query, offset);
-    }
 
     private void showAllArticles() {
         newSearch("");
@@ -168,4 +176,8 @@ public class SearchActivity extends AppCompatActivity {
         NYTHttpClient.searchArticles(query, page, handler);
     }
 
+    @Override
+    public void filterResults(FilterData filter) {
+
+    }
 }
