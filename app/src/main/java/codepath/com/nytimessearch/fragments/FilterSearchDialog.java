@@ -31,7 +31,7 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
     CheckBox cbSports;
     Button btnSave;
 
-    private static SimpleDateFormat sdf;
+    private static SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
 
     private Calendar cal = Calendar.getInstance();
 
@@ -95,20 +95,23 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
             @Override
             public void onClick(View v) {
                 FilteredSearchListener listener = (FilteredSearchListener) getActivity();
-                FilterData filter = new FilterData(cal, FilterData.Order.valueOf((String) spOrder.getSelectedItem()));
-                if (cbArts.isSelected()) {
+                String order = (String) spOrder.getSelectedItem();
+                FilterData filter = new FilterData(cal, FilterData.Order.valueOf(order.toUpperCase()));
+
+                if (cbArts.isChecked()) {
                     filter.setArts(true);
                 }
 
-                if (cbSports.isSelected()) {
+                if (cbSports.isChecked()) {
                     filter.setSports(true);
                 }
 
-                if (cbFashion.isSelected()) {
+                if (cbFashion.isChecked()) {
                     filter.setFashion(true);
                 }
 
                 listener.filterResults(filter);
+                dismiss();
 
             }
         });

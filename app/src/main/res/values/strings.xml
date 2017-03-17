@@ -8,8 +8,8 @@
     <string name="search_activity_title">The New York Times</string>
 
     <string-array name="search_order">
-        <item>Oldest</item>
         <item>Newest</item>
+        <item>Oldest</item>
     </string-array>
 
 

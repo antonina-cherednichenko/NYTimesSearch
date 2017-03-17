@@ -11,7 +11,6 @@ public class FilterData implements Serializable {
         NON_SET
     }
 
-
     private String query;
     private Calendar cal;
     private Order order;
@@ -46,6 +45,14 @@ public class FilterData implements Serializable {
         isSports = sports;
     }
 
+    public void clearQuery() {
+        this.query = "";
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
     public Calendar getCal() {
         return cal;
     }
@@ -64,5 +71,9 @@ public class FilterData implements Serializable {
 
     public Order getOrder() {
         return order;
+    }
+
+    public String getQuery() {
+        return query;
     }
 }

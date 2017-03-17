@@ -39,48 +39,44 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
 
-    private static final String QUERY_VALUE = "query";
+    private static final String FILTER_VALUE = "filter";
 
-
-    private static String query = "";
+    private static FilterData filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        setupViews();
-
-        if (savedInstanceState != null) {
-            query = savedInstanceState.getString(QUERY_VALUE);
-        }
-
-    }
-
-    private void setupViews() {
-        gvResults = (RecyclerView) findViewById(R.id.gvResults);
 
         articles = new ArrayList<>();
         adapter = new ArticleAdapter(this, articles);
 
+        filter = (savedInstanceState != null) ? (FilterData) savedInstanceState.getSerializable(FILTER_VALUE) : new FilterData();
+
+
+        gvResults = (RecyclerView) findViewById(R.id.gvResults);
         StaggeredGridLayoutManager gridLayoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         gvResults.setLayoutManager(gridLayoutManager);
         gvResults.setAdapter(adapter);
-        newSearch(query);
-
         scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
-                searchArticles(query, page);
+                searchArticles(page);
             }
         };
         gvResults.addOnScrollListener(scrollListener);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        //Perform initial search
+        newSearch();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,7 +88,8 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // perform query here
-                newSearch(query);
+                filter.setQuery(query);
+                newSearch();
                 searchView.clearFocus();
 
                 return true;
@@ -112,8 +109,9 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                // Write your code here
-                showAllArticles();
+                //show all articles if query is cleared
+                filter.clearQuery();
+                newSearch();
                 return true;
             }
         });
@@ -137,22 +135,17 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(QUERY_VALUE, query);
+        outState.putSerializable(FILTER_VALUE, filter);
         super.onSaveInstanceState(outState);
     }
 
-
-    private void showAllArticles() {
-        newSearch("");
-    }
-
-    private void newSearch(String sq) {
+    private void newSearch() {
         articles.clear();
-        query = sq;
-        searchArticles(sq, 0);
+        // adapter.notifyDataSetChanged();
+        searchArticles(0);
     }
 
-    private void searchArticles(String query, int page) {
+    private void searchArticles(int page) {
         JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
 
             @Override
@@ -173,11 +166,12 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
             }
         };
 
-        NYTHttpClient.searchArticles(query, page, handler);
+        NYTHttpClient.searchArticles(filter, page, handler);
     }
 
     @Override
     public void filterResults(FilterData filter) {
-
+        this.filter = filter;
+        newSearch();
     }
 }
