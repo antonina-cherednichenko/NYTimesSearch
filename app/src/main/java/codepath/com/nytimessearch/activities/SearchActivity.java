@@ -125,7 +125,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
         switch (item.getItemId()) {
             case R.id.action_filter:
                 FragmentManager fm = getSupportFragmentManager();
-                FilterSearchDialog filterDialog = FilterSearchDialog.newInstance();
+                FilterSearchDialog filterDialog = FilterSearchDialog.newInstance(filter);
                 filterDialog.show(fm, "fragment_filter_dialog");
                 return true;
             default:

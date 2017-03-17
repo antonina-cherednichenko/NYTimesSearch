@@ -5,15 +5,10 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 public class FilterData implements Serializable {
-    public enum Order {
-        OLDEST,
-        NEWEST,
-        NON_SET
-    }
 
     private String query;
     private Calendar cal;
-    private Order order;
+    private String order;
     private boolean isSports;
     private boolean isArts;
     private boolean isFashion;
@@ -21,14 +16,14 @@ public class FilterData implements Serializable {
 
     public FilterData() {
         this.query = "";
-        this.order = Order.NON_SET;
-        this.cal = null;
+        this.order = "";
+        this.cal = Calendar.getInstance();
         this.isArts = false;
         this.isSports = false;
         this.isFashion = false;
     }
 
-    public FilterData(Calendar cal, Order order) {
+    public FilterData(Calendar cal, String order) {
         this.cal = cal;
         this.order = order;
     }
@@ -69,7 +64,7 @@ public class FilterData implements Serializable {
         return isSports;
     }
 
-    public Order getOrder() {
+    public String getOrder() {
         return order;
     }
 

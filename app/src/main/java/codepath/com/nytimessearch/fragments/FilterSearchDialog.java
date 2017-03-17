@@ -32,16 +32,19 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
     Button btnSave;
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
-
-    private Calendar cal = Calendar.getInstance();
+    private static final String FILTER_VALUE = "filter";
+    private FilterData filter;
 
 
     public FilterSearchDialog() {
 
     }
 
-    public static FilterSearchDialog newInstance() {
+    public static FilterSearchDialog newInstance(FilterData filter) {
         FilterSearchDialog dialog = new FilterSearchDialog();
+        Bundle args = new Bundle();
+        args.putSerializable(FILTER_VALUE, filter);
+        dialog.setArguments(args);
         return dialog;
     }
 
@@ -70,14 +73,32 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
         cbSports = (CheckBox) view.findViewById(R.id.cbSports);
         btnSave = (Button) view.findViewById(R.id.btnSave);
 
+        filter = (FilterData) getArguments().getSerializable(FILTER_VALUE);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.search_order, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spOrder.setAdapter(adapter);
 
+        //set selected item in spinner
+        for (int i = 0; i < adapter.getCount(); i++) {
+            String item = (String) adapter.getItem(i);
+            if (item.equals(filter.getOrder())) {
+                spOrder.setSelection(i);
+                break;
+            }
+        }
+
         //Set current date to EditText field
+        final Calendar cal = filter.getCal();
         String date = sdf.format(cal.getTime());
         etDate.setText(date);
+
+        //set topics from filter
+        cbArts.setChecked(filter.isArts());
+        cbSports.setChecked(filter.isSports());
+        cbFashion.setChecked(filter.isFashion());
+
 
         etDate.setOnClickListener(new EditText.OnClickListener() {
             @Override
@@ -96,7 +117,7 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
             public void onClick(View v) {
                 FilteredSearchListener listener = (FilteredSearchListener) getActivity();
                 String order = (String) spOrder.getSelectedItem();
-                FilterData filter = new FilterData(cal, FilterData.Order.valueOf(order.toUpperCase()));
+                FilterData filter = new FilterData(cal, order);
 
                 if (cbArts.isChecked()) {
                     filter.setArts(true);
@@ -120,8 +141,8 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        cal.set(year, month, dayOfMonth);
-        String date = sdf.format(cal.getTime());
+        filter.getCal().set(year, month, dayOfMonth);
+        String date = sdf.format(filter.getCal().getTime());
         etDate.setText(date);
     }
 

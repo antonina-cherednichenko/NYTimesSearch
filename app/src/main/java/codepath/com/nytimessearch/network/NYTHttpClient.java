@@ -35,12 +35,8 @@ public class NYTHttpClient {
         }
 
         //Set sort order if available
-        if (filter.getOrder() != FilterData.Order.NON_SET) {
-            if (filter.getOrder() == FilterData.Order.NEWEST) {
-                params.put("sort", "newest");
-            } else {
-                params.put("sort", "oldest");
-            }
+        if (!TextUtils.isEmpty(filter.getOrder())) {
+            params.put("sort", filter.getOrder());
         }
 
         //Set query if available
