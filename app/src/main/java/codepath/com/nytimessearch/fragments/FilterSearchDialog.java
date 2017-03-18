@@ -78,7 +78,7 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
         filter = Parcels.unwrap(getArguments().getParcelable(FILTER_VALUE));
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.search_order, android.R.layout.simple_spinner_item);
+                R.array.search_order, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spOrder.setAdapter(adapter);
 

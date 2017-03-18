@@ -37,6 +37,7 @@
 
     <Spinner
         android:id="@+id/spOrder"
+        android:layout_marginLeft="@dimen/simple_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sort_order_text"
@@ -86,7 +87,8 @@
         android:layout_below="@id/cbSports"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:background="@color/colorPrimary"
-        android:text="@string/save_button" />
+        android:text="@string/save_button"
+        android:textColor="@android:color/white" />
 
 
 </RelativeLayout>
