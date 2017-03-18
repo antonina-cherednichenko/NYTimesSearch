@@ -166,7 +166,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
             }
         };
 
-        NYTHttpClient.searchArticles(filter, page, handler);
+        NYTHttpClient.searchArticles(filter, page, handler, this);
     }
 
     @Override
