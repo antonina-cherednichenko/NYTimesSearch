@@ -16,7 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
@@ -68,10 +69,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
             String thumbnail = article.getPhoto();
             if (!TextUtils.isEmpty(thumbnail)) {
-                //Measure parent width
-                int displayWidth = context.getResources().getDisplayMetrics().widthPixels;
-
-                Picasso.with(context).load(thumbnail).resize(displayWidth / 2, 0).into(viewHolder.ivImage);
+                Glide.with(context).load(thumbnail).diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .fitCenter().into(viewHolder.ivImage);
             }
 
         } else {
