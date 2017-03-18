@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,15 +69,11 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
             }
         };
         gvResults.addOnScrollListener(scrollListener);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        setupToolbar();
 
         //Perform initial search
         newSearch();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -143,6 +140,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
         articles.clear();
         // adapter.notifyDataSetChanged();
         searchArticles(0);
+        scrollListener.resetState();
     }
 
     private void searchArticles(int page) {
@@ -150,8 +148,9 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
+                //super.onFailure(statusCode, headers, throwable, errorResponse);
                 Log.d("DEBUG", errorResponse.toString());
+
             }
 
             @Override
@@ -173,5 +172,22 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
     public void filterResults(FilterData filter) {
         this.filter = filter;
         newSearch();
+        setTitle();
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle();
+
+    }
+
+    private void setTitle() {
+        String title = filter.isArts() ? "Arts" : "".concat(filter.isFashion() ? " Fashion" : "")
+                .concat(filter.isSports() ? " Sports" : "").trim();
+        if (!TextUtils.isEmpty(title)) {
+            getSupportActionBar().setTitle(title);
+        }
+
     }
 }

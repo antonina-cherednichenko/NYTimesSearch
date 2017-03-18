@@ -17,6 +17,9 @@ public class Article implements Serializable {
     private String headline;
     private String photo;
     private String snippet;
+    private String newsDesk;
+    private String id;
+    private String pubDate;
 
     public String getHeadline() {
         return headline;
@@ -34,11 +37,22 @@ public class Article implements Serializable {
         return snippet;
     }
 
+    public String getPubDate() {
+        return pubDate;
+    }
+
+    public String getNewsDesk() {
+        return newsDesk;
+    }
+
     public Article(JSONObject jsonObject) {
         try {
             this.webUrl = jsonObject.getString("web_url");
             this.headline = jsonObject.getJSONObject("headline").getString("main");
             this.snippet = jsonObject.getString("snippet");
+            this.newsDesk = jsonObject.getString("news_desk");
+            this.id = jsonObject.getString("_id");
+            this.pubDate = jsonObject.getString("pub_date");
 
             JSONArray multimedia = jsonObject.getJSONArray("multimedia");
 
@@ -82,5 +96,19 @@ public class Article implements Serializable {
         return results;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Article article = (Article) o;
+
+        return id.equals(article.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

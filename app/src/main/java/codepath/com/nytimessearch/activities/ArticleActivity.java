@@ -40,7 +40,7 @@ public class ArticleActivity extends AppCompatActivity {
         // Load the initial URL
         webView.loadUrl(article.getWebUrl());
 
-        setupToolbar(article.getHeadline());
+        setupToolbar(article.getNewsDesk());
     }
 
     // Manages the behavior when URLs are loaded
