@@ -19,7 +19,7 @@ public class FilterData {
     public FilterData() {
         this.query = "";
         this.order = "";
-        this.cal = Calendar.getInstance();
+        this.cal = null;
         this.isArts = false;
         this.isSports = false;
         this.isFashion = false;

@@ -92,7 +92,7 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
         }
 
         //Set current date to EditText field
-        final Calendar cal = filter.getCal();
+        final Calendar cal = (filter.getCal() == null) ? Calendar.getInstance() : filter.getCal();
         String date = sdf.format(cal.getTime());
         etDate.setText(date);
 

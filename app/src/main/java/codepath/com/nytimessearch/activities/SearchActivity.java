@@ -1,6 +1,7 @@
 package codepath.com.nytimessearch.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -62,7 +64,9 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
-                searchArticles(page);
+                // Create the Handler object (on the main thread by default)
+                loadMoreArticles(page);
+
             }
         };
         gvResults.addOnScrollListener(scrollListener);
@@ -70,6 +74,20 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
 
         //Perform initial search
         newSearch();
+    }
+
+    private void loadMoreArticles(final int page) {
+        Handler handler = new Handler();
+        // Define the code block to be executed
+        Runnable runnableCode = new Runnable() {
+            @Override
+            public void run() {
+                // Do something here on the main thread
+                searchArticles(page);
+            }
+        };
+        // Run the above code block on the main thread after 2 seconds
+        handler.postDelayed(runnableCode, 2000);
     }
 
     @Override
@@ -145,6 +163,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
             @Override
             public void onFailure(Call<NYTimesResponse> call, Throwable t) {
                 t.printStackTrace();
+                Log.d("DEBUG", "inside on failure");
 
             }
 

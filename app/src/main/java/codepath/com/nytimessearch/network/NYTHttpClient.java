@@ -92,6 +92,10 @@ public class NYTHttpClient {
 
 
         //Set query if available
+        if (!TextUtils.isEmpty(filter.getQuery())) {
+
+
+        }
         String query = TextUtils.isEmpty(filter.getQuery()) ? null : filter.getQuery();
 
 
@@ -128,5 +132,5 @@ public class NYTHttpClient {
         }
         return false;
     }
-    
+
 }
