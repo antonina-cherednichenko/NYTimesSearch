@@ -14,10 +14,8 @@ import codepath.com.nytimessearch.R;
 import codepath.com.nytimessearch.models.FilterData;
 import codepath.com.nytimessearch.models.NYTimesResponse;
 import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -38,23 +36,20 @@ public class NYTHttpClient {
     //Initialize okhttp client, retrofit and nytimes service
     static {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request original = chain.request();
-                HttpUrl originalHttpUrl = original.url();
+        builder.addInterceptor(chain -> {
+            Request original = chain.request();
+            HttpUrl originalHttpUrl = original.url();
 
-                HttpUrl url = originalHttpUrl.newBuilder()
-                        .addQueryParameter("api-key", API_KEY)
-                        .build();
+            HttpUrl url1 = originalHttpUrl.newBuilder()
+                    .addQueryParameter("api-key", API_KEY)
+                    .build();
 
-                // Request customization: add request headers
-                Request.Builder requestBuilder = original.newBuilder()
-                        .url(url);
+            // Request customization: add request headers
+            Request.Builder requestBuilder = original.newBuilder()
+                    .url(url1);
 
-                Request request = requestBuilder.build();
-                return chain.proceed(request);
-            }
+            Request request = requestBuilder.build();
+            return chain.proceed(request);
         });
 
         OkHttpClient client = builder.build();

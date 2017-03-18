@@ -79,12 +79,9 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
     private void loadMoreArticles(final int page) {
         Handler handler = new Handler();
         // Define the code block to be executed
-        Runnable runnableCode = new Runnable() {
-            @Override
-            public void run() {
-                // Do something here on the main thread
-                searchArticles(page);
-            }
+        Runnable runnableCode = () -> {
+            // Do something here on the main thread
+            searchArticles(page);
         };
         // Run the above code block on the main thread after 2 seconds
         handler.postDelayed(runnableCode, 2000);

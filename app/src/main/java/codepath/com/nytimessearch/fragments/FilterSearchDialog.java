@@ -102,41 +102,35 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
         cbFashion.setChecked(filter.isFashion());
 
 
-        etDate.setOnClickListener(new EditText.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dp = new DatePickerDialog(getActivity(), FilterSearchDialog.this, year, month, day);
-                dp.show();
+        etDate.setOnClickListener(v -> {
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog dp = new DatePickerDialog(getActivity(), FilterSearchDialog.this, year, month, day);
+            dp.show();
 
-            }
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FilteredSearchListener listener = (FilteredSearchListener) getActivity();
-                String order = (String) spOrder.getSelectedItem();
-                FilterData filter = new FilterData(cal, order);
+        btnSave.setOnClickListener(v -> {
+            FilteredSearchListener listener = (FilteredSearchListener) getActivity();
+            String order = (String) spOrder.getSelectedItem();
+            FilterData filter1 = new FilterData(cal, order);
 
-                if (cbArts.isChecked()) {
-                    filter.setArts(true);
-                }
-
-                if (cbSports.isChecked()) {
-                    filter.setSports(true);
-                }
-
-                if (cbFashion.isChecked()) {
-                    filter.setFashion(true);
-                }
-
-                listener.filterResults(filter);
-                dismiss();
-
+            if (cbArts.isChecked()) {
+                filter1.setArts(true);
             }
+
+            if (cbSports.isChecked()) {
+                filter1.setSports(true);
+            }
+
+            if (cbFashion.isChecked()) {
+                filter1.setFashion(true);
+            }
+
+            listener.filterResults(filter1);
+            dismiss();
+
         });
 
     }

@@ -93,29 +93,28 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         public ArticleViewHolder(View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    Article article = articles.get(position);
+            itemView.setOnClickListener(v -> {
 
-                    Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_share_action);
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, article.getHeadline());
-                    int requestCode = 100;
+                int position = getAdapterPosition();
+                Article article = articles.get(position);
 
-                    PendingIntent pendingIntent = PendingIntent.getActivity(context,
-                            requestCode,
-                            intent,
-                            PendingIntent.FLAG_UPDATE_CURRENT);
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_share_action);
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, article.getHeadline());
+                int requestCode = 100;
 
-                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
-                    builder.setActionButton(bitmap, "Share Link", pendingIntent, true);
-                    CustomTabsIntent customTabsIntent = builder.build();
-                    customTabsIntent.launchUrl(context, Uri.parse(article.getWebUrl()));
-                }
+                PendingIntent pendingIntent = PendingIntent.getActivity(context,
+                        requestCode,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                builder.setActionButton(bitmap, "Share Link", pendingIntent, true);
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(context, Uri.parse(article.getWebUrl()));
+
             });
         }
 
