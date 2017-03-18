@@ -15,15 +15,15 @@ public class Article implements Serializable {
 
     private String webUrl;
     private String headline;
-    private String thumbNail;
+    private String photo;
     private String snippet;
 
     public String getHeadline() {
         return headline;
     }
 
-    public String getThumbNail() {
-        return thumbNail;
+    public String getPhoto() {
+        return photo;
     }
 
     public String getWebUrl() {
@@ -42,11 +42,13 @@ public class Article implements Serializable {
 
             JSONArray multimedia = jsonObject.getJSONArray("multimedia");
 
-            if (multimedia.length() > 0) {
-                JSONObject multimediaJson = multimedia.getJSONObject(0);
-                this.thumbNail = "http://www.nytimes.com/" + multimediaJson.getString("url");
-            } else {
-                this.thumbNail = "";
+            this.photo = "";
+            for (int i = 0; i < multimedia.length(); i++) {
+                JSONObject multimediaJson = multimedia.getJSONObject(i);
+                if (multimediaJson.getString("subtype").equals("xlarge")) {
+                    this.photo = "http://www.nytimes.com/" + multimediaJson.getString("url");
+                    break;
+                }
             }
 
         } catch (JSONException e) {

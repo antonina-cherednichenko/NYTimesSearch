@@ -32,7 +32,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     @Override
     public int getItemViewType(int position) {
         Article article = articles.get(position);
-        return TextUtils.isEmpty(article.getThumbNail()) ? Article.Type.NO_IMAGE.value : Article.Type.WITH_IMAGE.value;
+        return TextUtils.isEmpty(article.getPhoto()) ? Article.Type.NO_IMAGE.value : Article.Type.WITH_IMAGE.value;
     }
 
 
@@ -61,7 +61,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             viewHolder.tvTitle.setText(article.getHeadline());
             viewHolder.tvSnippet.setText(article.getSnippet());
 
-            String thumbnail = article.getThumbNail();
+            String thumbnail = article.getPhoto();
             if (!TextUtils.isEmpty(thumbnail)) {
                 //Measure parent width
                 int displayWidth = context.getResources().getDisplayMetrics().widthPixels;
