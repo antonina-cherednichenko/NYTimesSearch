@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import codepath.com.nytimessearch.R;
@@ -87,6 +89,17 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
         public ArticleViewHolder(View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Intent i = new Intent(context, ArticleActivity.class);
+                    Article article = articles.get(position);
+                    i.putExtra(ArticleActivity.ARTICLE_EXTRA, Parcels.wrap(article));
+                    context.startActivity(i);
+                }
+            });
         }
 
     }
@@ -103,16 +116,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             tvSnippet = (TextView) itemView.findViewById(R.id.tvSnippet);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    Intent i = new Intent(context, ArticleActivity.class);
-                    Article article = articles.get(position);
-                    i.putExtra(ArticleActivity.ARTICLE_EXTRA, article);
-                    context.startActivity(i);
-                }
-            });
         }
     }
 
@@ -126,16 +129,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             tvSnippet = (TextView) itemView.findViewById(R.id.tvSnippet);
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    Intent i = new Intent(context, ArticleActivity.class);
-                    Article article = articles.get(position);
-                    i.putExtra(ArticleActivity.ARTICLE_EXTRA, article);
-                    context.startActivity(i);
-                }
-            });
         }
     }
 }

@@ -18,6 +18,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -52,7 +53,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
         articles = new ArrayList<>();
         adapter = new ArticleAdapter(this, articles);
 
-        filter = (savedInstanceState != null) ? (FilterData) savedInstanceState.getSerializable(FILTER_VALUE) : new FilterData();
+        filter = (savedInstanceState != null) ? (FilterData) Parcels.unwrap(savedInstanceState.getParcelable(FILTER_VALUE)) : new FilterData();
 
 
         gvResults = (RecyclerView) findViewById(R.id.gvResults);
@@ -132,7 +133,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(FILTER_VALUE, filter);
+        outState.putParcelable(FILTER_VALUE, Parcels.wrap(filter));
         super.onSaveInstanceState(outState);
     }
 

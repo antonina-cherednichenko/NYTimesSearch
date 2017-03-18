@@ -12,6 +12,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import org.parceler.Parcels;
+
 import codepath.com.nytimessearch.R;
 import codepath.com.nytimessearch.models.Article;
 
@@ -24,7 +26,7 @@ public class ArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
 
-        Article article = (Article) getIntent().getSerializableExtra(ARTICLE_EXTRA);
+        Article article = Parcels.unwrap(getIntent().getParcelableExtra(ARTICLE_EXTRA));
         WebView webView = (WebView) findViewById(R.id.wvArticle);
         // Configure related browser settings
         webView.getSettings().setLoadsImagesAutomatically(true);

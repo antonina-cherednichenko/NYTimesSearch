@@ -1,17 +1,19 @@
 package codepath.com.nytimessearch.models;
 
 
-import java.io.Serializable;
+import org.parceler.Parcel;
+
 import java.util.Calendar;
 
-public class FilterData implements Serializable {
+@Parcel
+public class FilterData {
 
-    private String query;
-    private Calendar cal;
-    private String order;
-    private boolean isSports;
-    private boolean isArts;
-    private boolean isFashion;
+    String query;
+    Calendar cal;
+    String order;
+    boolean isSports;
+    boolean isArts;
+    boolean isFashion;
 
 
     public FilterData() {

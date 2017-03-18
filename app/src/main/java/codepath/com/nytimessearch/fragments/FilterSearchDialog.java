@@ -15,6 +15,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.parceler.Parcels;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -43,7 +45,7 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
     public static FilterSearchDialog newInstance(FilterData filter) {
         FilterSearchDialog dialog = new FilterSearchDialog();
         Bundle args = new Bundle();
-        args.putSerializable(FILTER_VALUE, filter);
+        args.putParcelable(FILTER_VALUE, Parcels.wrap(filter));
         dialog.setArguments(args);
         return dialog;
     }
@@ -73,7 +75,7 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
         cbSports = (CheckBox) view.findViewById(R.id.cbSports);
         btnSave = (Button) view.findViewById(R.id.btnSave);
 
-        filter = (FilterData) getArguments().getSerializable(FILTER_VALUE);
+        filter = Parcels.unwrap(getArguments().getParcelable(FILTER_VALUE));
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.search_order, android.R.layout.simple_spinner_item);
