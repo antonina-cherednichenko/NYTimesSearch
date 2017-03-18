@@ -1,7 +1,13 @@
 package codepath.com.nytimessearch.adapters;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,12 +18,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.parceler.Parcels;
-
 import java.util.List;
 
 import codepath.com.nytimessearch.R;
-import codepath.com.nytimessearch.activities.ArticleActivity;
 import codepath.com.nytimessearch.models.Article;
 
 
@@ -94,10 +97,24 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    Intent i = new Intent(context, ArticleActivity.class);
                     Article article = articles.get(position);
-                    i.putExtra(ArticleActivity.ARTICLE_EXTRA, Parcels.wrap(article));
-                    context.startActivity(i);
+
+                    Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_share_action);
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_TEXT, article.getHeadline());
+                    int requestCode = 100;
+
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context,
+                            requestCode,
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                    builder.setActionButton(bitmap, "Share Link", pendingIntent, true);
+                    CustomTabsIntent customTabsIntent = builder.build();
+                    customTabsIntent.launchUrl(context, Uri.parse(article.getWebUrl()));
                 }
             });
         }
