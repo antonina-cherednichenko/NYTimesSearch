@@ -9,15 +9,9 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -27,9 +21,11 @@ import codepath.com.nytimessearch.adapters.ArticleAdapter;
 import codepath.com.nytimessearch.fragments.FilterSearchDialog;
 import codepath.com.nytimessearch.models.Article;
 import codepath.com.nytimessearch.models.FilterData;
+import codepath.com.nytimessearch.models.NYTimesResponse;
 import codepath.com.nytimessearch.network.NYTHttpClient;
 import codepath.com.nytimessearch.utils.EndlessRecyclerViewScrollListener;
-import cz.msebera.android.httpclient.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 public class SearchActivity extends AppCompatActivity implements FilterSearchDialog.FilteredSearchListener {
@@ -145,28 +141,26 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
     }
 
     private void searchArticles(int page) {
-        JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
-
+        Callback callback = new Callback<NYTimesResponse>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //super.onFailure(statusCode, headers, throwable, errorResponse);
-                Log.d("DEBUG", errorResponse.toString());
+            public void onFailure(Call<NYTimesResponse> call, Throwable t) {
+                t.printStackTrace();
 
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    JSONArray articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
-                    articles.addAll(Article.fromJsonArray(articleJsonResults));
+            public void onResponse(Call<NYTimesResponse> call, retrofit2.Response<NYTimesResponse> response) {
+                // handle response here
+                NYTimesResponse nyTimesResponse = response.body();
+                if (nyTimesResponse != null && nyTimesResponse.getResponse() != null) {
+                    articles.addAll(nyTimesResponse.getResponse().getArticles());
                     adapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
             }
         };
 
-        NYTHttpClient.searchArticles(filter, page, handler, this);
+        NYTHttpClient.searchArticles(filter, page, callback, this);
     }
 
     @Override

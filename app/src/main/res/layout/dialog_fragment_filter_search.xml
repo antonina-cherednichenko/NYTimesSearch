@@ -37,13 +37,14 @@
 
     <Spinner
         android:id="@+id/spOrder"
-        android:layout_marginLeft="@dimen/simple_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sort_order_text"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/simple_margin"
         android:entries="@array/search_order"
-        android:prompt="@string/order_prompt" />
+        android:prompt="@string/order_prompt"
+        android:spinnerMode="dropdown" />
 
     <TextView
         android:id="@+id/new_desks_text"

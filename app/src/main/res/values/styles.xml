@@ -23,7 +23,7 @@
 
     <style name="spinner_dropdown_style_theme1" parent="Widget.AppCompat.DropDownItem.Spinner">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorAccent</item>
     </style>
 
 

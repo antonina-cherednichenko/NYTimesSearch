@@ -1,76 +1,14 @@
 package codepath.com.nytimessearch.models;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.annotations.SerializedName;
+
 import org.parceler.Parcel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 @Parcel
 public class Article {
-
-    String webUrl;
-    String headline;
-    String photo;
-    String snippet;
-    String newsDesk;
-    String id;
-    String pubDate;
-
-    public Article() {
-
-    }
-
-    public String getHeadline() {
-        return headline;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public String getWebUrl() {
-        return webUrl;
-    }
-
-    public String getSnippet() {
-        return snippet;
-    }
-
-    public String getPubDate() {
-        return pubDate;
-    }
-
-    public String getNewsDesk() {
-        return newsDesk;
-    }
-
-    public Article(JSONObject jsonObject) {
-        try {
-            this.webUrl = jsonObject.getString("web_url");
-            this.headline = jsonObject.getJSONObject("headline").getString("main");
-            this.snippet = jsonObject.getString("snippet");
-            this.newsDesk = jsonObject.getString("news_desk");
-            this.id = jsonObject.getString("_id");
-            this.pubDate = jsonObject.getString("pub_date");
-
-            JSONArray multimedia = jsonObject.getJSONArray("multimedia");
-
-            this.photo = "";
-            for (int i = 0; i < multimedia.length(); i++) {
-                JSONObject multimediaJson = multimedia.getJSONObject(i);
-                if (multimediaJson.getString("subtype").equals("xlarge")) {
-                    this.photo = "http://www.nytimes.com/" + multimediaJson.getString("url");
-                    break;
-                }
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     public enum Type {
         WITH_IMAGE(0),
@@ -83,20 +21,49 @@ public class Article {
         }
     }
 
+    @SerializedName("web_url")
+    String webUrl;
+    @SerializedName("headline")
+    Headline headline;
+    @SerializedName("multimedia")
+    List<Multimedia> multimedia;
+    @SerializedName("snippet")
+    String snippet;
+    @SerializedName("news_desk")
+    String newsDesk;
+    @SerializedName("_id")
+    String id;
 
-    public static ArrayList<Article> fromJsonArray(JSONArray array) {
-        ArrayList<Article> results = new ArrayList<>();
 
-        for (int x = 0; x < array.length(); x++) {
-            try {
-                results.add(new Article(array.getJSONObject(x)));
-            } catch (JSONException e) {
-                e.printStackTrace();
+    public Article() {
+
+    }
+
+    public String getHeadline() {
+        return headline.getMain();
+    }
+
+    public String getPhoto() {
+        for (Multimedia media : multimedia) {
+            if (media.getSubtype().equals("xlarge")) {
+                return media.getUrl();
             }
         }
-
-        return results;
+        return "";
     }
+
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public String getSnippet() {
+        return snippet;
+    }
+
+    public String getNewsDesk() {
+        return newsDesk;
+    }
+
 
     @Override
     public boolean equals(Object o) {
