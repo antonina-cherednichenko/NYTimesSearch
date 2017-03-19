@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
@@ -25,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import codepath.com.nytimessearch.R;
 import codepath.com.nytimessearch.models.Article;
+import codepath.com.nytimessearch.utils.CategoryColorChooser;
 
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder> {
@@ -68,7 +70,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             ArticleViewWithImageHolder viewHolder = (ArticleViewWithImageHolder) holder;
             viewHolder.tvTitle.setText(article.getHeadline());
             viewHolder.tvSnippet.setText(article.getSnippet());
-            viewHolder.tvCategory.setText(article.getNewsDesk());
+            String category = article.getNewsDesk();
+            viewHolder.tvCategory.setText(category);
+            viewHolder.tvCategory.setBackgroundColor(Color.parseColor(CategoryColorChooser.getColor(category)));
 
             String thumbnail = article.getPhoto();
             if (!TextUtils.isEmpty(thumbnail)) {
@@ -81,7 +85,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
             viewHolder.tvTitle.setText(article.getHeadline());
             viewHolder.tvSnippet.setText(article.getSnippet());
-            viewHolder.tvCategory.setText(article.getNewsDesk());
+            String category = article.getNewsDesk();
+            viewHolder.tvCategory.setText(category);
+            viewHolder.tvCategory.setBackgroundColor(Color.parseColor(CategoryColorChooser.getColor(category)));
 
         }
     }
