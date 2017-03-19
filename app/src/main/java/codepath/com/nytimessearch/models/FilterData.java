@@ -25,10 +25,6 @@ public class FilterData {
         this.isFashion = false;
     }
 
-    public FilterData(Calendar cal, String order) {
-        this.cal = cal;
-        this.order = order;
-    }
 
     public void setArts(boolean arts) {
         isArts = arts;
@@ -52,6 +48,10 @@ public class FilterData {
 
     public void setCal(Calendar cal) {
         this.cal = cal;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
     }
 
     public Calendar getCal() {
