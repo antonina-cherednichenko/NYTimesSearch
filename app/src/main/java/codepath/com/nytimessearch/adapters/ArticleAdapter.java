@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,6 +35,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     private List<Article> articles;
     private Context context;
+    private SimpleDateFormat nytFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSS");
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public ArticleAdapter(Context context, List<Article> articles) {
         this.context = context;
@@ -74,6 +78,15 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             viewHolder.tvCategory.setText(category);
             viewHolder.tvCategory.setBackgroundColor(Color.parseColor(CategoryColorChooser.getColor(category)));
 
+
+            try {
+                String reformattedStr = sdf.format(nytFormat.parse(article.getPubDate()));
+                viewHolder.tvDate.setText(reformattedStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
             String thumbnail = article.getPhoto();
             if (!TextUtils.isEmpty(thumbnail)) {
                 Glide.with(context).load(thumbnail).diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -88,6 +101,12 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             String category = article.getNewsDesk();
             viewHolder.tvCategory.setText(category);
             viewHolder.tvCategory.setBackgroundColor(Color.parseColor(CategoryColorChooser.getColor(category)));
+            try {
+                String reformattedStr = sdf.format(nytFormat.parse(article.getPubDate()));
+                viewHolder.tvDate.setText(reformattedStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
         }
     }
@@ -138,6 +157,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         TextView tvSnippet;
         @BindView(R.id.tvCategory)
         TextView tvCategory;
+        @BindView(R.id.tvDate)
+        TextView tvDate;
 
         public ArticleViewWithImageHolder(View itemView) {
             super(itemView);
@@ -152,6 +173,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         TextView tvTitle;
         @BindView(R.id.tvCategory)
         TextView tvCategory;
+        @BindView(R.id.tvDate)
+        TextView tvDate;
 
         public ArticleViewNoImageHolder(View itemView) {
             super(itemView);

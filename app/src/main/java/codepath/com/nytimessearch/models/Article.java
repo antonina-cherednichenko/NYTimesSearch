@@ -33,6 +33,8 @@ public class Article {
     String newsDesk;
     @SerializedName("_id")
     String id;
+    @SerializedName("pub_date")
+    String pubDate;
 
 
     public Article() {
@@ -64,6 +66,9 @@ public class Article {
         return newsDesk;
     }
 
+    public String getPubDate() {
+        return pubDate;
+    }
 
     @Override
     public boolean equals(Object o) {
