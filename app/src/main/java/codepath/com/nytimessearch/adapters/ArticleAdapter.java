@@ -70,44 +70,27 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public void onBindViewHolder(ArticleViewHolder holder, int position) {
         Article article = articles.get(position);
 
+        holder.tvTitle.setText(article.getHeadline());
+        holder.tvSnippet.setText(article.getSnippet());
+        String category = article.getNewsDesk();
+        holder.tvCategory.setText(category);
+        holder.tvCategory.setBackgroundColor(Color.parseColor(CategoryColorChooser.getColor(category)));
+
+        try {
+            String reformattedStr = sdf.format(nytFormat.parse(article.getPubDate()));
+            holder.tvDate.setText(reformattedStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         if (holder.getItemViewType() == Article.Type.WITH_IMAGE.value) {
             ArticleViewWithImageHolder viewHolder = (ArticleViewWithImageHolder) holder;
-            viewHolder.tvTitle.setText(article.getHeadline());
-            viewHolder.tvSnippet.setText(article.getSnippet());
-            String category = article.getNewsDesk();
-            viewHolder.tvCategory.setText(category);
-            viewHolder.tvCategory.setBackgroundColor(Color.parseColor(CategoryColorChooser.getColor(category)));
-
-
-            try {
-                String reformattedStr = sdf.format(nytFormat.parse(article.getPubDate()));
-                viewHolder.tvDate.setText(reformattedStr);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
 
             String thumbnail = article.getPhoto();
             if (!TextUtils.isEmpty(thumbnail)) {
                 Glide.with(context).load(thumbnail).diskCacheStrategy(DiskCacheStrategy.ALL)
                         .fitCenter().into(viewHolder.ivImage);
             }
-
-        } else {
-            ArticleViewNoImageHolder viewHolder = (ArticleViewNoImageHolder) holder;
-
-            viewHolder.tvTitle.setText(article.getHeadline());
-            viewHolder.tvSnippet.setText(article.getSnippet());
-            String category = article.getNewsDesk();
-            viewHolder.tvCategory.setText(category);
-            viewHolder.tvCategory.setBackgroundColor(Color.parseColor(CategoryColorChooser.getColor(category)));
-            try {
-                String reformattedStr = sdf.format(nytFormat.parse(article.getPubDate()));
-                viewHolder.tvDate.setText(reformattedStr);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
         }
     }
 
@@ -117,6 +100,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tvSnippet)
+        TextView tvSnippet;
+        @BindView(R.id.tvTitle)
+        TextView tvTitle;
+        @BindView(R.id.tvCategory)
+        TextView tvCategory;
+        @BindView(R.id.tvDate)
+        TextView tvDate;
 
         public ArticleViewHolder(View itemView) {
             super(itemView);
@@ -151,14 +142,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public class ArticleViewWithImageHolder extends ArticleViewHolder {
         @BindView(R.id.ivImage)
         ImageView ivImage;
-        @BindView(R.id.tvTitle)
-        TextView tvTitle;
-        @BindView(R.id.tvSnippet)
-        TextView tvSnippet;
-        @BindView(R.id.tvCategory)
-        TextView tvCategory;
-        @BindView(R.id.tvDate)
-        TextView tvDate;
 
         public ArticleViewWithImageHolder(View itemView) {
             super(itemView);
@@ -167,14 +150,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
     public class ArticleViewNoImageHolder extends ArticleViewHolder {
-        @BindView(R.id.tvSnippet)
-        TextView tvSnippet;
-        @BindView(R.id.tvTitle)
-        TextView tvTitle;
-        @BindView(R.id.tvCategory)
-        TextView tvCategory;
-        @BindView(R.id.tvDate)
-        TextView tvDate;
 
         public ArticleViewNoImageHolder(View itemView) {
             super(itemView);
