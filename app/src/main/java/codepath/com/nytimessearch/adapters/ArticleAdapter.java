@@ -68,6 +68,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             ArticleViewWithImageHolder viewHolder = (ArticleViewWithImageHolder) holder;
             viewHolder.tvTitle.setText(article.getHeadline());
             viewHolder.tvSnippet.setText(article.getSnippet());
+            viewHolder.tvCategory.setText(article.getNewsDesk());
 
             String thumbnail = article.getPhoto();
             if (!TextUtils.isEmpty(thumbnail)) {
@@ -80,6 +81,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
             viewHolder.tvTitle.setText(article.getHeadline());
             viewHolder.tvSnippet.setText(article.getSnippet());
+            viewHolder.tvCategory.setText(article.getNewsDesk());
 
         }
     }
@@ -122,9 +124,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
     public class ArticleViewWithImageHolder extends ArticleViewHolder {
-        @BindView(R.id.ivImage) ImageView ivImage;
-        @BindView(R.id.tvTitle) TextView tvTitle;
-        @BindView(R.id.tvSnippet) TextView tvSnippet;
+        @BindView(R.id.ivImage)
+        ImageView ivImage;
+        @BindView(R.id.tvTitle)
+        TextView tvTitle;
+        @BindView(R.id.tvSnippet)
+        TextView tvSnippet;
+        @BindView(R.id.tvCategory)
+        TextView tvCategory;
 
         public ArticleViewWithImageHolder(View itemView) {
             super(itemView);
@@ -133,8 +140,12 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
     public class ArticleViewNoImageHolder extends ArticleViewHolder {
-        @BindView(R.id.tvSnippet) TextView tvSnippet;
-        @BindView(R.id.tvTitle) TextView tvTitle;
+        @BindView(R.id.tvSnippet)
+        TextView tvSnippet;
+        @BindView(R.id.tvTitle)
+        TextView tvTitle;
+        @BindView(R.id.tvCategory)
+        TextView tvCategory;
 
         public ArticleViewNoImageHolder(View itemView) {
             super(itemView);

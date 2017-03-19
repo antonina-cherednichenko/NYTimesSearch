@@ -121,18 +121,9 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
             filter.setOrder(order);
 
             filter.setCal(cal);
-
-            if (cbArts.isChecked()) {
-                filter.setArts(true);
-            }
-
-            if (cbSports.isChecked()) {
-                filter.setSports(true);
-            }
-
-            if (cbFashion.isChecked()) {
-                filter.setFashion(true);
-            }
+            filter.setArts(cbArts.isChecked());
+            filter.setSports(cbSports.isChecked());
+            filter.setFashion(cbFashion.isChecked());
 
             listener.filterResults(filter);
             dismiss();

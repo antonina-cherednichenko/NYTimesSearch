@@ -203,8 +203,10 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
     }
 
     private void setTitle() {
-        String title = filter.isArts() ? "Arts" : "".concat(filter.isFashion() ? " Fashion" : "")
-                .concat(filter.isSports() ? " Sports" : "").trim();
+        String title = filter.isArts() ? "Arts" : "";
+        title = title.concat(filter.isFashion() ? " Fashion" : "");
+        title = title.concat(filter.isSports() ? " Sports" : "").trim();
+        
         if (!TextUtils.isEmpty(title)) {
             getSupportActionBar().setTitle(title);
         }

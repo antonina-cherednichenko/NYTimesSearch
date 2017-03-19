@@ -31,10 +31,20 @@
             tools:text="TextView" />
 
         <TextView
-            android:id="@+id/tvSnippet"
+            android:id="@+id/tvCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTitle"
+            android:layout_margin="@dimen/simple_margin"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/simple_margin"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tvSnippet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvCategory"
             android:layout_margin="@dimen/simple_margin"
             tools:text="TextView" />
 

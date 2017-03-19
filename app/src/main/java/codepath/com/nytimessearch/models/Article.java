@@ -29,7 +29,7 @@ public class Article {
     List<Multimedia> multimedia;
     @SerializedName("snippet")
     String snippet;
-    @SerializedName("news_desk")
+    @SerializedName("section_name")
     String newsDesk;
     @SerializedName("_id")
     String id;
