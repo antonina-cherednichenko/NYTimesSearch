@@ -48,13 +48,14 @@ The following **additional** features are implemented:
 * [X] Publish date field is added
 * [X] Search query is saved if configuration change 
 * [X] CardView is used
+* [X] Launcher icon is changed
 
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/antonina-cherednichenko/NYTimesSearch/blob/master/video1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
