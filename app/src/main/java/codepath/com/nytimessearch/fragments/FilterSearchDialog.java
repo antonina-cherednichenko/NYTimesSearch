@@ -20,18 +20,20 @@ import org.parceler.Parcels;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import codepath.com.nytimessearch.R;
 import codepath.com.nytimessearch.models.FilterData;
 
 
 public class FilterSearchDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    EditText etDate;
-    Spinner spOrder;
-    CheckBox cbArts;
-    CheckBox cbFashion;
-    CheckBox cbSports;
-    Button btnSave;
+    @BindView(R.id.etDate) EditText etDate;
+    @BindView(R.id.spOrder) Spinner spOrder;
+    @BindView(R.id.cbArts) CheckBox cbArts;
+    @BindView(R.id.cbFashion) CheckBox cbFashion;
+    @BindView(R.id.cbSports) CheckBox cbSports;
+    @BindView(R.id.btnSave) Button btnSave;
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
     private static final String FILTER_VALUE = "filter";
@@ -59,6 +61,7 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_fragment_filter_search, container);
+        ButterKnife.bind(this, rootView);
         getDialog().setTitle(R.string.filter_dialog_name);
 
         return rootView;
@@ -68,12 +71,12 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        spOrder = (Spinner) view.findViewById(R.id.spOrder);
-        etDate = (EditText) view.findViewById(R.id.etDate);
-        cbArts = (CheckBox) view.findViewById(R.id.cbArts);
-        cbFashion = (CheckBox) view.findViewById(R.id.cbFashion);
-        cbSports = (CheckBox) view.findViewById(R.id.cbSports);
-        btnSave = (Button) view.findViewById(R.id.btnSave);
+//        spOrder = (Spinner) view.findViewById(R.id.spOrder);
+        // etDate = (EditText) view.findViewById(etDate);
+//        cbArts = (CheckBox) view.findViewById(R.id.cbArts);
+//        cbFashion = (CheckBox) view.findViewById(R.id.cbFashion);
+//        cbSports = (CheckBox) view.findViewById(R.id.cbSports);
+//        btnSave = (Button) view.findViewById(btnSave);
 
         filter = Parcels.unwrap(getArguments().getParcelable(FILTER_VALUE));
 
@@ -92,7 +95,11 @@ public class FilterSearchDialog extends DialogFragment implements DatePickerDial
         }
 
         //Set current date to EditText field
-        final Calendar cal = (filter.getCal() == null) ? Calendar.getInstance() : filter.getCal();
+        if (filter.getCal() == null) {
+            filter.setCal(Calendar.getInstance());
+        }
+
+        Calendar cal = filter.getCal();
         String date = sdf.format(cal.getTime());
         etDate.setText(date);
 

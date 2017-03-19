@@ -50,6 +50,10 @@ public class FilterData {
         this.query = query;
     }
 
+    public void setCal(Calendar cal) {
+        this.cal = cal;
+    }
+
     public Calendar getCal() {
         return cal;
     }

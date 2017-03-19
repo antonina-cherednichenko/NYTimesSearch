@@ -77,7 +77,6 @@ public class NYTHttpClient {
 
         }
 
-
         //Set calendar begin date if available
         String date = filter.getCal() != null ? sdf.format(filter.getCal().getTime()) : null;
 
@@ -87,10 +86,6 @@ public class NYTHttpClient {
 
 
         //Set query if available
-        if (!TextUtils.isEmpty(filter.getQuery())) {
-
-
-        }
         String query = TextUtils.isEmpty(filter.getQuery()) ? null : filter.getQuery();
 
 
