@@ -30,7 +30,7 @@ The following **bonus** features are implemented:
 * [X] Use the [RecyclerView](http://guides.codepath.com/android/Using-the-RecyclerView) with the `StaggeredGridLayoutManager` to display improve the grid of image results
 * [X] For different news articles that only have text or only have images, use [Heterogenous Layouts](http://guides.codepath.com/android/Heterogenous-Layouts-inside-RecyclerView) with RecyclerView
 * [X] Use Parcelable instead of Serializable using the popular [Parceler library](http://guides.codepath.com/android/Using-Parceler).
-* [ ] Leverages the [data binding support module](http://guides.codepath.com/android/Applying-Data-Binding-for-Views) to bind data into layout templates.
+* [ ] Leverages the [data binding support module](http://guides.codepath.com/android/Applying-Data-Binding-for-Views) to bind data into layout templates. *ButterKnife is used instead*
 * [X] Replace all icon drawables and other static image assets with [vector drawables](http://guides.codepath.com/android/Drawables#vector-drawables) where appropriate.
 * [X] Replace Picasso with [Glide](http://inthecheesefactory.com/blog/get-to-know-glide-recommended-by-google/en) for more efficient image rendering.
 * [X] Uses [retrolambda expressions](http://guides.codepath.com/android/Lambda-Expressions) to cleanup event handling blocks.
@@ -40,13 +40,14 @@ The following **bonus** features are implemented:
 
 The following **additional** features are implemented:
 
-* [X] Lightweight splash activity for application start
+* [X] Lightweight splash activity for application start is added
 * [X] Thumbnail image is replaced with 'xlarge' image format
 * [X] Check that articles are unique is provided
 * [X] Data binding with ButterKnife is implemented
 * [X] Category field with custom color chooser is implemented
 * [X] Publish date field is added
 * [X] Search query is saved if configuration change 
+* [X] CardView is used
 
 
 ## Video Walkthrough
@@ -65,3 +66,7 @@ Describe any challenges encountered while building the app.
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+- [ButterKnife](http://jakewharton.github.io/butterknife/)
+- [Glide](https://github.com/bumptech/glide)
+- [GSON](https://github.com/google/gson)
+- [Retrofit](http://square.github.io/retrofit/) 
