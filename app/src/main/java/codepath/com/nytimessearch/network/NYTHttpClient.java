@@ -21,9 +21,6 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by tonya on 3/16/17.
- */
 
 public class NYTHttpClient {
 

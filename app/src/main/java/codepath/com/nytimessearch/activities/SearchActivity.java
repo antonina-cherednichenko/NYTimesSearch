@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -173,7 +174,12 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
                 // handle response here
                 NYTimesResponse nyTimesResponse = response.body();
                 if (nyTimesResponse != null && nyTimesResponse.getResponse() != null) {
-                    articles.addAll(nyTimesResponse.getResponse().getArticles());
+                    List<Article> resArticles = nyTimesResponse.getResponse().getArticles();
+                    for (Article article : resArticles) {
+                        if (!articles.contains(article)) {
+                            articles.add(article);
+                        }
+                    }
                     adapter.notifyDataSetChanged();
                 }
 
