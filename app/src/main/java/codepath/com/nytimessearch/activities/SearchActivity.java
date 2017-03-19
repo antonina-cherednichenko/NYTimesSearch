@@ -18,6 +18,8 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import codepath.com.nytimessearch.R;
 import codepath.com.nytimessearch.adapters.ArticleAdapter;
 import codepath.com.nytimessearch.fragments.FilterSearchDialog;
@@ -31,30 +33,32 @@ import retrofit2.Callback;
 
 
 public class SearchActivity extends AppCompatActivity implements FilterSearchDialog.FilteredSearchListener {
+
+    @BindView(R.id.gvResults)
     RecyclerView gvResults;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
 
     private ArrayList<Article> articles;
     private ArticleAdapter adapter;
-
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
 
     private static final String FILTER_VALUE = "filter";
-
     private static FilterData filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        ButterKnife.bind(this);
 
         articles = new ArrayList<>();
         adapter = new ArticleAdapter(this, articles);
 
         filter = (savedInstanceState != null) ? (FilterData) Parcels.unwrap(savedInstanceState.getParcelable(FILTER_VALUE)) : new FilterData();
 
-
-        gvResults = (RecyclerView) findViewById(R.id.gvResults);
         StaggeredGridLayoutManager gridLayoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         gvResults.setLayoutManager(gridLayoutManager);
@@ -187,7 +191,6 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchDia
     }
 
     private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle();
 

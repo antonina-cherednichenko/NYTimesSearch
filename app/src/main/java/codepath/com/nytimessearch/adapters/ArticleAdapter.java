@@ -21,6 +21,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import codepath.com.nytimessearch.R;
 import codepath.com.nytimessearch.models.Article;
 
@@ -120,30 +122,23 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
     public class ArticleViewWithImageHolder extends ArticleViewHolder {
-        ImageView ivImage;
-        TextView tvTitle;
-        TextView tvSnippet;
+        @BindView(R.id.ivImage) ImageView ivImage;
+        @BindView(R.id.tvTitle) TextView tvTitle;
+        @BindView(R.id.tvSnippet) TextView tvSnippet;
 
         public ArticleViewWithImageHolder(View itemView) {
             super(itemView);
-
-            ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
-            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-            tvSnippet = (TextView) itemView.findViewById(R.id.tvSnippet);
-
+            ButterKnife.bind(this, itemView);
         }
     }
 
     public class ArticleViewNoImageHolder extends ArticleViewHolder {
-        TextView tvSnippet;
-        TextView tvTitle;
+        @BindView(R.id.tvSnippet) TextView tvSnippet;
+        @BindView(R.id.tvTitle) TextView tvTitle;
 
         public ArticleViewNoImageHolder(View itemView) {
             super(itemView);
-
-            tvSnippet = (TextView) itemView.findViewById(R.id.tvSnippet);
-            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-
+            ButterKnife.bind(this, itemView);
         }
     }
 }
